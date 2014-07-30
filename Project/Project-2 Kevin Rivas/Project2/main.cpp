@@ -13,6 +13,10 @@ using namespace std;
 
 //Function Prototypes
 void con();
+void displayMenu();
+void getMenu();
+bool start();
+
 
 //Execution Starts here
 int main(int argc, char** argv) {
@@ -31,12 +35,27 @@ int main(int argc, char** argv) {
     char chB='B';
     char chC='C';
     
-    //Simple output of text for Menu
-    cout<<"Welcome to Oregon Trail Lite Version"<<endl;
-    cout<<"===========Main Menu================"<<endl;
-    cout<<"1. Play game"<<endl;
-    cout<<"2. Rules"<<endl;
-    cout<<"3. Quit (But why would you?)"<<endl;
+   
+    displayMenu();
+    do{ 
+        //Function to Display Menu
+        displayMenu();
+        choice=getMenu();
+        switch(choice){
+
+            case 1: start();break;
+            case 2: rules();break;
+            case 3: endProgram();break;
+            default:(choice);
+        };
+    
+    }while(choice<5&&choice>0);
+    
+    if ()
+    return 0;
+}
+    
+    
     
     //Input for menu
     cin>>choice;
@@ -723,8 +742,28 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-void con(){
+void con()
+{
     cout<<"Press enter to continue..."<<endl;
     cin.ignore();
 }
+
+void displayMenu()
+{
+        //Simple output of text for Menu
+    cout<<"Welcome to Oregon Trail Lite Version"<<endl;
+    cout<<"===========Main Menu================"<<endl;
+    cout<<"1. Play game"<<endl;
+    cout<<"2. Rules"<<endl;
+    cout<<"3. Quit (But why would you?)"<<endl;
+}
+
+short getMenu()
+{
+    short choice
+    cin>>choice;
+    return choice;        
+}
+
+
 
