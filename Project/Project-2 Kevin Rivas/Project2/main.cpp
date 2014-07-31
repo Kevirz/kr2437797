@@ -2,28 +2,29 @@
  * File:   main.cpp
  * Author: Kevin Rivas
  *
- * Created on July 14, 2014, 5:09 PM
+ * Created on July 125, 2014, 5:09 PM
  */
 
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
 //Global Constants
+const int ROWS = 20;
+const int COLS = 2;
 
 //Function Prototypes
 void con();
-void displayMenu();
-void getMenu();
-bool start();
-
+void displayArray(fstream, int);
+int searchList( int[], int, int);
 
 //Execution Starts here
 int main(int argc, char** argv) {
     //Declare Variables
     int days=35;
     short choice;
-    float food=0;
+    int food=0;
     int str=0;
     int agl=0;
     int lck=0;
@@ -31,31 +32,44 @@ int main(int argc, char** argv) {
     char dec;
     bool strt;
     bool moral;
+    fstream end;
     char chA='A';
     char chB='B';
     char chC='C';
+    int array [ROWS][COLS];
     
-   
-    displayMenu();
-    do{ 
-        //Function to Display Menu
-        displayMenu();
-        choice=getMenu();
-        switch(choice){
+    const int size=2;                    //Size of the array
+    int search[size]={2123629, 2152573}; //Array for ID
 
-            case 1: start();break;
-            case 2: rules();break;
-            case 3: endProgram();break;
-            default:(choice);
-        };
+    int iD=0;                            //ID Number
+    int result=0;                        //holds what # the account is in the element(inside array))
     
-    }while(choice<5&&choice>0);
+    //Simple Tex output
     
-    if ()
-    return 0;
-}
+    cout<<"Enter your Student ID Number"<<endl;
+    cin>>iD; //variable for student Id
+    result=searchList(search, size, iD); //linear search result
     
-    
+   if(iD<0||iD> 2,147,483,647){
+        
+        iD=0;
+        result=0;
+                
+        cout<<"Error!: Please Input your valid Student ID"<<endl;
+        cin>>iD;
+        result=searchList(search, size, iD); //linear search result
+        con();
+        cin.ignore(); 
+    }
+      
+       
+       
+    //Simple output of text for Menu
+    cout<<"Welcome to Oregon Trail Lite Version"<<endl;
+    cout<<"===========Main Menu================"<<endl;
+    cout<<"1. Play game"<<endl;
+    cout<<"2. Rules"<<endl;
+    cout<<"3. Quit (But why would you?)"<<endl;
     
     //Input for menu
     cin>>choice;
@@ -63,14 +77,16 @@ int main(int argc, char** argv) {
     //Do-while menu including switch
     do{
         switch(choice)
-    {
-        case 1:
+        {
+            case 1:
+                
             strt=true;
             con();
             cin.ignore();  
             break;
             
-        case 2:
+            case 2:
+                
             cout<<"Rules"<<endl;
             cout<<"The rules are simple, the objective is to finish the Oregon";
             cout<<" Trail before running out of food or time."<<endl;
@@ -82,22 +98,27 @@ int main(int argc, char** argv) {
             con();
             cin.ignore();
             break;
-        case 3:
+            
+            case 3:
+            
             strt=false;
             cout<<"Quitting game"<<endl;
             con();
             cin.ignore();
             return 0;
         default:
-            if (choice!=1||2||3)
+            if (choice!=1&&choice!=2&&choice!=3)
             cout<<"Not a valid option, please enter 1,2, or 3. ";
             cin>>choice;
             break;
+        }
     }
-    }while (choice<1||choice>3);
+    while (choice<1||choice>3);
     
     //Uses Bool to activate the Game
-    if (strt==true){
+    if (strt==true)
+    {
+
         cout<<"Well hello there, Traveler! Welcome to the Oregon Trail!"<<endl;
         cout<<"Before we begin, please enter your Statistics."<<endl;
         cout<<"This may help you on your journey!"<<endl;
@@ -105,6 +126,7 @@ int main(int argc, char** argv) {
         cout<<" (It is recommended to at least dedicate 3 ";
         cout<<" points to at least one stat)."<<endl;
         cout<<"For more information, consult rules"<<endl;
+        
         //Input of Stats
         cout<<"Strength: "<<endl;
         cin>>str;
@@ -116,9 +138,10 @@ int main(int argc, char** argv) {
         cin>>lck;
         con();
         cin.ignore();
+        ttl=str+agl+lck;
         
         //Input validation statement for the input of Stats
-        for (ttl=str+agl+lck;ttl>5;ttl)
+        while (ttl>5)
         {
             str=0,agl=0,lck=0;
             cout<<"Error!"<<endl;
@@ -133,11 +156,10 @@ int main(int argc, char** argv) {
             cout<<"Luck: "<<endl;
             cin>>lck;
             cin.ignore();
+            ttl=str+agl+lck;
             con();
         
             cout<<endl;
-        
-             
         }
        //Brief simple output of text for some rules 
         cout<<"Remember there is a time limit!"<<endl;
@@ -148,7 +170,8 @@ int main(int argc, char** argv) {
         cout<<"Now to begin."<<endl;
         con();
         
-       
+  
+            
         //Beginning of Game
         //Day 1        
         cout<<"Day 1: You must aquire food for this epic journey."<<endl;
@@ -158,8 +181,13 @@ int main(int argc, char** argv) {
         cout<<"[B] Hunt?"<<endl;
         cout<<"[C] Fish?"<<endl;
         cin>>dec;
+        //holds the day, used to determine the amount of food and days
+        //at the conclusion
+        array [0][0]=1;
+        
         //Choice A
-        if(dec=='A'){
+        if(dec=='A')
+        {
             food+=20;
             cout<<"Food Acquired: "<<endl;
             cout<<food<<endl;
@@ -168,10 +196,12 @@ int main(int argc, char** argv) {
             
         }
         //Choice B
-        else if (dec=='B'){
+        else if (dec=='B')
+        {
             
             //If strength is successful
-            if(str>=3){
+            if(str>=3)
+            {
                cout<<"Success!";
                 food+=20;
                 cout<<"Food Acquired:"<<endl;
@@ -182,7 +212,8 @@ int main(int argc, char** argv) {
                 cin.ignore();
             }
                 //If strength stat is unsuccessful
-                else{
+                else
+                {
                 cout<<"Failure: Strength too low"<<endl;
                 cout<<"Since you failed at hunting you resupply"<<endl;
                 food+=20;
@@ -193,12 +224,15 @@ int main(int argc, char** argv) {
                 con();
                 cin.ignore();
                 }  
-             }
+            
+        }
            
         //Choice C
-        else if (dec=='C'){
+        else if (dec=='C')
+        {
             //If luck stat is successful
-            if(lck>=3){
+            if(lck>=3)
+            {
             cout<<"Success!";
                 food+=20;
                 cout<<"Food Acquired: "<<endl;
@@ -209,7 +243,8 @@ int main(int argc, char** argv) {
                 cin.ignore();
             }
             //If luck stat is unsuccessful
-             else{
+             else
+             {
                 food+=20;
                 days-=8;
                 cout<<"Failure: Luck too low";
@@ -219,13 +254,21 @@ int main(int argc, char** argv) {
                 con();
                 cin.ignore();
              }
-           
+          
         }
-        //Requests for another attempt if failure to input correct character
-        else{
-            cout<<"Invalid Answer: Please Select the A,B,or C"<<endl;
-            cin>>dec;
+        
+        //adds food to the array as the second column
+        array[0][1]=food;
+        
+        //Input validation
+        while (dec!='A'&&dec!='B'&&dec!='C'){
+        cout<<"Error, Please Enter A, B, or C: "<<endl;
+        cin>>dec;
         }
+    
+        //Day 2
+        //Adds a day to the array
+        array [1][0]=2;
         //in-game random day
         cout<<"New Day... Uneventful"<<endl;
         food-=1;
@@ -235,6 +278,11 @@ int main(int argc, char** argv) {
         con();
         cin.ignore();
         
+        //Adds food to the array
+        array [1][1]=food;
+        
+        //Day 3
+        array [2][0]=3;
         //in-game random day
         cout<<"New Day... You pass by a creek"<<endl;
         food-=1;
@@ -243,7 +291,10 @@ int main(int argc, char** argv) {
         cout<<"Days left: "<<days<<endl;
         con();
         cin.ignore();
+        array [2][1]= food;
         
+        //Day4
+        array [3][0]=4;
         //in-game random day
         cout<<"New Day... What's so great about Oregon?"<<endl;
         food-=1;
@@ -252,16 +303,20 @@ int main(int argc, char** argv) {
         cout<<"Days left: "<<days<<endl;
         con();
         cin.ignore();
+        array[3][1]=food;
         
+        //Day5
+        array[4][0]=5;
         //Second Challenge
         cout<<"New Day....You come across stranded pioneers."<<endl;
         cout<<"Do you.."<<endl;
         cout<<"[A] Invite them to come join you."<<endl;
         cout<<"[B] Leave them."<<endl;
-
+        //Input
         cin>>dec;
         //Choice A
-        if(dec=='A'){
+        if(dec=='A')
+        {
             cout<<"You have a kind heart,but unfortunately that comes with a";
             cout<<" price. You spent more time and food by settling extra";
             cout<<" mouths to feed. Good luck."<<endl;
@@ -273,9 +328,11 @@ int main(int argc, char** argv) {
             moral=true;
             con();
             cin.ignore();
+            
         }
         //Choice B
-        else if (dec=='B'){
+        else if (dec=='B')
+        {
                 cout<<"That was messed up... but at least you still have food.";
                 cout<<endl;
                 food-=1;
@@ -285,14 +342,17 @@ int main(int argc, char** argv) {
                 moral=false;
                 con();
                 cin.ignore();
-               
-             }
+                
+        }
         //Asks user for another attempt to input correct char 
         else{
             cout<<"Invalid Answer: Please Select the A,or B"<<endl;
             cin>>dec;
         }
+        array [4][1]=food;
         
+        //Day 6
+        array [5][0]=6;
         //in-game random day
         cout<<"New Day... Oh look, a tree!"<<endl;
         food-=1;        //subtracts 1 food
@@ -301,7 +361,10 @@ int main(int argc, char** argv) {
         cout<<"Days left: "<<days<<endl;
         con();
         cin.ignore();       
-         
+        array [5][1]=food;
+        
+        //Day 7
+        array [6][0]=7;
         //in-game random day
         cout<<"New Day... Oregon is the one with the gold right?"<<endl;
         food-=1;
@@ -310,7 +373,10 @@ int main(int argc, char** argv) {
         cout<<"Days left: "<<days<<endl;
         con();
         cin.ignore();
+        array [6][1]=food;
         
+        //Day 8
+        array [7][0]=8;
         //in-game random day
         cout<<"New Day... I miss indoor plumbing!"<<endl;
         food-=1;
@@ -318,8 +384,11 @@ int main(int argc, char** argv) {
         cout<<"Food left: "<<food<<endl;
         cout<<"Days left: "<<days<<endl;
         con();
-        cin.ignore();      
+        cin.ignore();
+        array [7][1]=food;
         
+        //Day 9
+        array [8][0]=9;
         //in-game random day
         cout<<"New Day... did we forget someone? Where's Kevin?!"<<endl;
         food-=1;
@@ -327,16 +396,23 @@ int main(int argc, char** argv) {
         cout<<"Food left: "<<food<<endl;
         cout<<"Days left: "<<days<<endl;
         con();
-        cin.ignore();   
+        cin.ignore();
+        array [8][1]=food;
         
+        //Day 10
+        array [9][0]=10;
         //Third Challenge
         cout<<"New Day....Your horse is slowing down."<<endl;
         cout<<"Do you.."<<endl;
         cout<<"[A] Stop and Rest"<<endl;
         cout<<"[B] Eh, the horse is fine."<<endl;
         cin>>dec;
+        
+        
         //Choice A
-        if(dec=='A'){
+        
+        if(dec=='A')
+        {
             cout<<"Yeah we should take a rest for a while...";
             cout<<"I mean why would we risk our only form of transportation, "; 
             cout<<"right? Silly thing to do."<<endl;
@@ -347,9 +423,12 @@ int main(int argc, char** argv) {
             cout<<"Days left: "<<days<<endl;
             con();
             cin.ignore();
+            
         }
+        
         //Choice B
-        else if (dec=='B'){
+        else if (dec=='B')
+        {
             cout<<"So Good news and Bad news..."<<endl;
             cout<<"Your horse finally collapsed with a broken ankle..."<<endl;
             cout<<"Good news: You have more food now! Yum!"<<endl;
@@ -361,15 +440,18 @@ int main(int argc, char** argv) {
             cout<<"Food left: "<<food<<endl;
             cout<<"Days left: "<<days<<endl;
             con();
-            cin.ignore();    
-             
-               
-             }
+            cin.ignore();
+            
+        }
+        
         //Asks user for another attempt to input correct char    
-        else{
+        else
+        {
             cout<<"Invalid Answer: Please Select the A,or B"<<endl;
             cin>>dec;
         }
+        
+        //Day 11
         //In-game Random day
         cout<<"New Day... Ah the clean air, away from the city"<<endl;
         food-=1;
@@ -379,6 +461,7 @@ int main(int argc, char** argv) {
         con();
         cin.ignore(); 
         
+        //Day 12
         //In-game Random day
         cout<<"New Day... WHY DID WE LEAVE THE CITY!?"<<endl;
         food-=1;
@@ -388,6 +471,7 @@ int main(int argc, char** argv) {
         con();
         cin.ignore();
         
+        //Day 13
         //In-game Random day
         cout<<"Your wagon's wheel looks funny..."<<endl;
         cout<<"Do you.."<<endl;
@@ -395,7 +479,8 @@ int main(int argc, char** argv) {
         cout<<"[B] Psh no! We have to hurry up!"<<endl;
         cin>>dec;
         
-        if(dec=='A'){
+        if(dec=='A')
+        {
             cout<<"So it turned out to be nothing...";
             cout<<"You wasted time stopping..."; 
             cout<<"Look at you trying to be responsible."<<endl;
@@ -407,7 +492,8 @@ int main(int argc, char** argv) {
             con();
             cin.ignore();
         }
-        else if (dec=='B'){
+        else if (dec=='B')
+        {
 
             cout<<"Well, it broke."<<endl;
             cout<<"Yeah you should of stopped..."<<endl;
@@ -420,7 +506,7 @@ int main(int argc, char** argv) {
                 cout<<"Food left: "<<food<<endl;
                 cout<<"Days left: "<<days<<endl;
                 con();
-                cin.ignore();    
+                cin.ignore();
             
             }
             if(moral=false){    
@@ -435,18 +521,25 @@ int main(int argc, char** argv) {
             con();
             cin.ignore();    
             }
-               
-             }
+        }
            
         else{
             cout<<"Invalid Answer: Please Select the A,or B"<<endl;
             cin>>dec;
         }
-        if (days<=0)
-            cout<<"Game Over: You Starved!";
-        if(food<=0)
-            cout<<"Game Over: You starved!";
+        array [9][1]=food;
         
+        {if (days<=0||food<=0){
+          
+          cout<<"Game Over: Ran out of food or time... or both."<<endl;
+        
+          con();
+          cin.ignore();
+          return 0;}
+        }
+        
+        //Day 14
+        array [10][0]=11;
         cout<<"New Day... Oh abandoned Wagon? That's not ominous..."<<endl;
         food-=1;
         days-=1;
@@ -454,7 +547,7 @@ int main(int argc, char** argv) {
         cout<<"Days left: "<<days<<endl;
         con();
         cin.ignore();
-        
+        array [10][1]=food;
         
         
         {if (days<=0||food<=0){
@@ -466,6 +559,8 @@ int main(int argc, char** argv) {
           return 0;}
         }
         
+        //Day 16
+        array [11][0]=12;
         cout<<"Maybe it's a good idea to stop to get food? "<<endl;
         cout<<"Do you.."<<endl;
         cout<<"[A] Nah, We need to hurry, we're running out of time!"<<endl;
@@ -483,6 +578,7 @@ int main(int argc, char** argv) {
             days-=1;
             cout<<"Days left: "<<days<<endl;
             
+            
         }
         else if (dec=='B'){
             
@@ -496,6 +592,7 @@ int main(int argc, char** argv) {
                 cout<<"Days left: "<<days<<endl;
                 con();
                 cin.ignore();
+                
             }
                 
                 else{
@@ -508,7 +605,8 @@ int main(int argc, char** argv) {
                 cout<<"Days left: "<<days<<endl;
                 con();
                 cin.ignore();
-                }  
+                } 
+            
              }
            
         
@@ -542,6 +640,7 @@ int main(int argc, char** argv) {
             cout<<"Invalid Answer: Please Select the A,B,or C"<<endl;
             cin>>dec;
         }
+        array [11][1]=food;
         
         {if (days<=0||food<=0){
             cout<<"Game Over: Ran out of food or time... or both."<<endl;
@@ -551,8 +650,8 @@ int main(int argc, char** argv) {
         return 0;}
         }
         
-
-        
+       //Day 17
+       array [12][0]=13; 
        cout<<"New Day... Boring day"<<endl;
        food-=1;
        days-=1;
@@ -560,6 +659,7 @@ int main(int argc, char** argv) {
        cout<<"Days left: "<<days<<endl;
        con();
        cin.ignore();
+       array [12][1]=food;
         
        {if (days<=0||food<=0){
             cout<<"Game Over: Ran out of food or time... or both."<<endl;
@@ -568,7 +668,9 @@ int main(int argc, char** argv) {
         cin.ignore();
         return 0;}
         }
-        
+       
+       //Day 18
+       array [13][0]=14; 
        cout<<"New Day... Uneventful"<<endl;
        food-=1;
        days-=1;
@@ -576,6 +678,7 @@ int main(int argc, char** argv) {
        cout<<"Days left: "<<days<<endl;
        con();
        cin.ignore();
+       array [14][4]=food; 
        
        {if (days<=0||food<=0){
             cout<<"Game Over: Ran out of food or time... or both."<<endl;
@@ -584,7 +687,8 @@ int main(int argc, char** argv) {
         cin.ignore();
         return 0;}
         }
-       
+       //Day 19
+       array [15][0]=16; 
        cout<<"New Day... Almost there!"<<endl;
        food-=1;
        days-=1;
@@ -592,7 +696,8 @@ int main(int argc, char** argv) {
        cout<<"Days left: "<<days<<endl;
        con();
        cin.ignore();
-        
+       array [15][4]=food; 
+       
        {if (days<=0||food<=0){
         cout<<"Game Over: Ran out of food or time... or both."<<endl;
         
@@ -600,6 +705,9 @@ int main(int argc, char** argv) {
         cin.ignore();
         return 0;}
         }
+       
+        array [16][0]=17;
+        //Day20
         cout<<"You're near the border but you see a group of people up ahead";
         cout<<". They look like unsavory characters..."<<endl;
         cout<<"Do you.."<<endl;
@@ -699,6 +807,8 @@ int main(int argc, char** argv) {
             cin>>dec;
         }
         
+        array [17][1]=food;
+        
         {if (days<=0||food<=0){
             cout<<"Game Over: Ran out of food or time... or both."<<endl;
         
@@ -706,25 +816,30 @@ int main(int argc, char** argv) {
         cin.ignore();
         return 0;}
         }
-        
-       cout<<"New Day... You see the finish line!"<<endl;
-       food-=1;
-       days-=1;
-       cout<<"Food left: "<<food<<endl;
-       cout<<"Days left: "<<days<<endl;
-       con();
-       cin.ignore();
-        
-       {if (days<=0||food<=0){
-           cout<<"You were so close! Almost there. Too bad..."<<endl;
-           cout<<"Game Over: Ran out of food or time... or both."<<endl;
-      
-        
+       
+        array [18][0]=19;
+        cout<<"New Day... You see the finish line!"<<endl;
+        food-=1;
+        days-=1;
+        cout<<"Food left: "<<food<<endl;
+        cout<<"Days left: "<<days<<endl;
         con();
         cin.ignore();
-        return 0;}
-        }
+        array [18][1]=food;
+        
+       {
+           if (days<=0||food<=0)
+       {
+           cout<<"You were so close! Almost there. Too bad..."<<endl;
+           cout<<"Game Over: Ran out of food or time... or both."<<endl;
+           
+           con();
+           cin.ignore();
+        return 0;
+       }
+       }
        
+       array [19][0]=20;
        cout<<"Congrats! You finally made it to your new homestead!"<<endl;
        cout<<"After tiresome journey you finally made it!"<<endl;
        cout<<"Now build your homestead and avoid getting eaten by a bear"<<endl;
@@ -733,37 +848,43 @@ int main(int argc, char** argv) {
            cout<<"Looks like you have a surplus off food!"<<endl;
        if (food<10)
            cout<<"Winter is coming. Good luck on the food"<<endl;
+       array [19][1]=food;
+       
+       cout<<"Days and Food History: "<<endl;
     
-   
+       //Prints The amount of Days and food
+       for(int i=0;i<20;i++)
+       {
+           for(int j=0;j<2;j++)
+           { 
+  
+               cout<<array[i][j]<<" ";
+           }
+           cout<<endl;
+       }
 
     }
-    
-                
         return 0;
-    }
+}
 
-void con()
-{
+void con(){
     cout<<"Press enter to continue..."<<endl;
     cin.ignore();
 }
 
-void displayMenu()
+int searchList(int search[], int size, int iD)
 {
-        //Simple output of text for Menu
-    cout<<"Welcome to Oregon Trail Lite Version"<<endl;
-    cout<<"===========Main Menu================"<<endl;
-    cout<<"1. Play game"<<endl;
-    cout<<"2. Rules"<<endl;
-    cout<<"3. Quit (But why would you?)"<<endl;
+    int i=0; // sub to search array
+    int location=-1; // records the value
+    bool lost= false; // value is found
+    while (i<size&&!lost)
+    {
+        if (search[i]==iD) //if value is found
+        {
+            lost=true; //Set to true
+            location=i; //records subscript
+        }
+        i++; //increments element
+    }
+    return location; //returns the position
 }
-
-short getMenu()
-{
-    short choice
-    cin>>choice;
-    return choice;        
-}
-
-
-
